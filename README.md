@@ -1,10 +1,20 @@
 # MicroPython Winbond Flash
 
-Micropython library to interact with Winbond Flash chips
+MicroPython library to interact with Winbond W25Q Flash chips
 
 -----------------------
 
-## Setup
+## upip stetup
+
+Connect your MicroPython board to the web and install this library with the
+following command
+
+```python
+import upip
+upip.install('micropython-winbond')
+```
+
+## Manual Setup
 
 For interaction with the filesystem of the device the
 [Remote MicroPython shell][ref-remote-upy-shell] can be used.
@@ -56,7 +66,7 @@ Welcome to rshell. Use Control-D (or the exit command) to exit rshell.
 pyboard @ /dev/tty.SLAB_USBtoUART connected Epoch: 2000 Dirs: /pyboard/boot.py
 ```
 
-## Download files to board
+### Download files to board
 
 Files can be copied to the device with the following command
 
@@ -75,7 +85,7 @@ cp main.py /pyboard
 cp boot.py /pyboard
 ```
 
-## Open REPL (in rshell)
+### Open REPL (in rshell)
 
 Call `repl` in the rshell. Use CTRL+X to leave the repl or CTRL+D for a soft
 reboot of the device.
@@ -151,6 +161,51 @@ MicroPython v1.18 on 2022-01-17; ESP32 module with ESP32
 Type "help()" for more information.
 ```
 
+## Create a PyPi (micropython) package
+
+### Setup
+
+Install the required python package with the following command in a virtual
+environment to avoid any conflicts with other packages installed on your local
+system.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip install twine
+```
+
+### Create a distribution
+
+This module overrides distutils (also compatible with setuptools) `sdist`
+command to perform pre- and post-processing as required for MicroPython's
+upip package manager. This script is taken from
+[pfalcon's picoweb][ref-pfalcon-picoweb-sdist-upip] and updated to be PEP8
+conform.
+
+```bash
+python setup.py sdist
+```
+
+A new folder `dist` will be created. The [`sdist_upip`](sdist_upip.py) will be
+used to create everything necessary.
+
+### Upload to PyPi
+
+**Be aware: [pypi.org][ref-pypi] and [test.pypi.org][ref-test-pypi] are different**
+
+You can **NOT** login to [test.pypi.org][ref-test-pypi] with the
+[pypi.org][ref-pypi] account unless you created the same on the other. See
+[invalid auth help page of **test** pypi][ref-invalid-auth-test-pypi]
+
+For testing purposes add `--repository testpypi` to
+upload it to [test.pypi.org][ref-test-pypi]
+
+```bash
+twine upload dist/micropython-winbond-*.tar.gz -u PYPI_USERNAME -p PYPI_PASSWORD
+```
+
 ## Credits
 
 Kudos and big thank you to [crizeo of the MicroPython Forum][ref-crizeo] and
@@ -159,5 +214,9 @@ his [post to use Winbond flash chips][ref-upy-forum-winbond-driver]
 <!-- Links -->
 [ref-remote-upy-shell]: https://github.com/dhylands/rshell
 [ref-be32]: https://github.com/brainelectronics/BE32-01/
+[ref-pfalcon-picoweb-sdist-upip]: https://github.com/pfalcon/picoweb/blob/b74428ebdde97ed1795338c13a3bdf05d71366a0/sdist_upip.py
+[ref-test-pypi]: https://test.pypi.org/
+[ref-pypi]: https://pypi.org/
+[ref-invalid-auth-test-pypi]: https://test.pypi.org/help/#invalid-auth
 [ref-crizeo]: https://forum.micropython.org/memberlist.php?mode=viewprofile&u=3067
 [ref-upy-forum-winbond-driver]: https://forum.micropython.org/viewtopic.php?f=16&t=3899&start=10
