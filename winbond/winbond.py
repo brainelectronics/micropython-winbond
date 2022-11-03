@@ -249,7 +249,7 @@ class W25QFlash(object):
             "address ({}) not at page start".format(addr)
         assert addr + len(buf) <= self._CAPACITY, \
             ("memory not addressable at {} with range {} (max.: {})".
-                format((hex(addr), len(buf), hex(self._CAPACITY - 1))))
+                format(hex(addr), len(buf), hex(self._CAPACITY - 1)))
         # print("write buf[{}] to {} ({})".format(len(buf), hex(addr), addr))
 
         for i in range(0, len(buf), self.PAGE_SIZE):
