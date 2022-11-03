@@ -6,6 +6,7 @@ import os   # os already imported by boot.py. This import is to satisfy flake8
 
 print('Entered main.py')
 
+flash_mount_point = '/external'     # use same as in boot.py
 external_test_file_name = 'some-file.txt'
 external_test_file_path = flash_mount_point + '/' + external_test_file_name
 
