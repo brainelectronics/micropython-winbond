@@ -10,9 +10,12 @@ here = pathlib.Path(__file__).parent.resolve()
 # Get the long description from the README file
 long_description = (here / 'README.md').read_text(encoding='utf-8')
 
+# load elements of version.py
+exec(open(here / 'winbond' / 'version.py').read())
+
 setup(
     name='micropython-winbond',
-    version='0.2.0',
+    version=__version__,
     description="Simple MicroPython Winbond library",
     long_description=long_description,
     long_description_content_type='text/markdown',

@@ -1,29 +1,42 @@
 # MicroPython Winbond Flash
 
+[![Downloads](https://pepy.tech/badge/micropython-winbond)](https://pepy.tech/project/micropython-winbond)
+![Release](https://img.shields.io/github/v/release/brainelectronics/micropython-winbond?include_prereleases&color=success)
+![MicroPython](https://img.shields.io/badge/micropython-Ok-green.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://github.com/brainelectronics/micropython-winbond/actions/workflows/release.yml/badge.svg)](https://github.com/brainelectronics/micropython-winbond/actions/workflows/release.yml)
+
 MicroPython library to interact with Winbond W25Q Flash chips
 
 -----------------------
 
-## upip stetup
+<!-- MarkdownTOC -->
 
-Connect your MicroPython board to the web and install this library with the
-following command
+- [Installation](#installation)
+	- [Install required tools](#install-required-tools)
+- [Stetup](#stetup)
+	- [Install package with pip](#install-package-with-pip)
+	- [Manually](#manually)
+		- [Upload files to board](#upload-files-to-board)
+	- [Open REPL \(in rshell\)](#open-repl-in-rshell)
+- [Credits](#credits)
 
-```python
-import upip
-upip.install('micropython-winbond')
+<!-- /MarkdownTOC -->
+
+## Installation
+
+### Install required tools
+
+Python3 must be installed on your system. Check the current Python version
+with the following command
+
+```bash
+python --version
+python3 --version
 ```
 
-## Manual Setup
-
-For interaction with the filesystem of the device the
-[Remote MicroPython shell][ref-remote-upy-shell] can be used.
-
-### Installation
-
-Install the required python package with the following command in a virtual
-environment to avoid any conflicts with other packages installed on your local
-system.
+Depending on which command `Python 3.x.y` (with x.y as some numbers) is
+returned, use that command to proceed.
 
 ```bash
 python3 -m venv .venv
@@ -32,17 +45,44 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+For interaction with the filesystem of the device the
+[Remote MicroPython shell][ref-remote-upy-shell] can be used.
+
 Test the tool by showing its man/help info description.
 
 ```bash
 rshell --help
 ```
 
-### Setup check
+## Stetup
+
+### Install package with pip
+
+Connect your MicroPython board to a network
+
+```python
+import network
+station = network.WLAN(network.STA_IF)
+station.connect('SSID', 'PASSWORD')
+station.isconnected()
+```
+
+and install this lib on the MicroPython device like this
+
+```python
+import upip
+upip.install('micropython-winbond')
+```
+
+### Manually
+
+#### Upload files to board
+
+Copy the module to the MicroPython board and import them as shown below
+using [Remote MicroPython shell][ref-remote-upy-shell]
 
 Open the remote shell with the following command. Additionally use `-b 115200`
-in case no CP210x is used but a CH34x to limit the communication speed to
-115200 baud.
+in case no CP210x is used but a CH34x.
 
 ```bash
 rshell -p /dev/tty.SLAB_USBtoUART --editor nano
@@ -66,9 +106,7 @@ Welcome to rshell. Use Control-D (or the exit command) to exit rshell.
 pyboard @ /dev/tty.SLAB_USBtoUART connected Epoch: 2000 Dirs: /pyboard/boot.py
 ```
 
-### Download files to board
-
-Files can be copied to the device with the following command
+Perform the following command to copy all files and folders to the device
 
 ```bash
 cp SOURCE_FILE_NAME /pyboard
@@ -159,51 +197,6 @@ Listing all files and folders on the external flash directory "/external":
 Finished main.py code. Returning to REPL now
 MicroPython v1.18 on 2022-01-17; ESP32 module with ESP32
 Type "help()" for more information.
-```
-
-## Create a PyPi (micropython) package
-
-### Setup
-
-Install the required python package with the following command in a virtual
-environment to avoid any conflicts with other packages installed on your local
-system.
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-
-pip install twine
-```
-
-### Create a distribution
-
-This module overrides distutils (also compatible with setuptools) `sdist`
-command to perform pre- and post-processing as required for MicroPython's
-upip package manager. This script is taken from
-[pfalcon's picoweb][ref-pfalcon-picoweb-sdist-upip] and updated to be PEP8
-conform.
-
-```bash
-python setup.py sdist
-```
-
-A new folder `dist` will be created. The [`sdist_upip`](sdist_upip.py) will be
-used to create everything necessary.
-
-### Upload to PyPi
-
-**Be aware: [pypi.org][ref-pypi] and [test.pypi.org][ref-test-pypi] are different**
-
-You can **NOT** login to [test.pypi.org][ref-test-pypi] with the
-[pypi.org][ref-pypi] account unless you created the same on the other. See
-[invalid auth help page of **test** pypi][ref-invalid-auth-test-pypi]
-
-For testing purposes add `--repository testpypi` to
-upload it to [test.pypi.org][ref-test-pypi]
-
-```bash
-twine upload dist/micropython-winbond-*.tar.gz -u PYPI_USERNAME -p PYPI_PASSWORD
 ```
 
 ## Credits

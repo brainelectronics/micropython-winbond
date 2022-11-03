@@ -35,7 +35,7 @@ class W25QFlash(object):
         self.identify()
 
         # address length (default: 3 bytes, 32MB+: 4)
-        self._ADR_LEN = 3 if (len(bin(self._CAPACITY-1))-2) <= 24 else 4
+        self._ADR_LEN = 3 if (len(bin(self._CAPACITY - 1)) - 2) <= 24 else 4
 
         # setup address mode:
         if self._ADR_LEN == 4:
@@ -203,9 +203,9 @@ class W25QFlash(object):
         :param      addr:  The start address
         :type       addr:  int
         """
-        assert addr+len(buf) <= self._CAPACITY, \
+        assert addr + len(buf) <= self._CAPACITY, \
             "memory not addressable at %s with range %d (max.: %s)" % \
-            (hex(addr), len(buf), hex(self._CAPACITY-1))
+            (hex(addr), len(buf), hex(self._CAPACITY - 1))
         # print("read {} bytes starting at {}".format(len(buf), hex(addr)))
 
         self._await()
@@ -247,9 +247,9 @@ class W25QFlash(object):
             "invalid buffer length: {}".format(len(buf))
         assert not addr & 0xf, \
             "address ({}) not at page start".format(addr)
-        assert addr+len(buf) <= self._CAPACITY, \
+        assert addr + len(buf) <= self._CAPACITY, \
             ("memory not addressable at {} with range {} (max.: {})".
-                format((hex(addr), len(buf), hex(self._CAPACITY-1))))
+                format(hex(addr), len(buf), hex(self._CAPACITY - 1)))
         # print("write buf[{}] to {} ({})".format(len(buf), hex(addr), addr))
 
         for i in range(0, len(buf), self.PAGE_SIZE):
@@ -258,7 +258,7 @@ class W25QFlash(object):
             self.cs(0)
             self.spi.write(b'\x02')  # 'Page Program' command
             self.spi.write(addr.to_bytes(self._ADR_LEN, 'big'))
-            self.spi.write(buf[i:i+self.PAGE_SIZE])
+            self.spi.write(buf[i:i + self.PAGE_SIZE])
             addr += self.PAGE_SIZE
             self.cs(1)
 
@@ -286,7 +286,7 @@ class W25QFlash(object):
         index = (blocknum << 9) & 0xfff
 
         self._read(buf=self._cache, addr=sector_addr)
-        self._cache[index:index+self.BLOCK_SIZE] = buf  # apply changes
+        self._cache[index:index + self.BLOCK_SIZE] = buf  # apply changes
         self._sector_erase(addr=sector_addr)
         # addr is multiple of self.SECTOR_SIZE, so last byte is zero
         self._write(buf=self._cache, addr=sector_addr)
@@ -310,7 +310,7 @@ class W25QFlash(object):
             offset = 0
             buf_mv = memoryview(buf)
             while offset < buf_len:
-                self._read(buf=buf_mv[offset:offset+self.BLOCK_SIZE],
+                self._read(buf=buf_mv[offset:offset + self.BLOCK_SIZE],
                            addr=blocknum << 9)
                 offset += self.BLOCK_SIZE
                 blocknum += 1
@@ -335,7 +335,7 @@ class W25QFlash(object):
             buf_mv = memoryview(buf)
             while offset < buf_len:
                 self._writeblock(blocknum=blocknum,
-                                 buf=buf_mv[offset:offset+self.BLOCK_SIZE])
+                                 buf=buf_mv[offset:offset + self.BLOCK_SIZE])
                 offset += self.BLOCK_SIZE
                 blocknum += 1
 
