@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
+# This module is part of Pycopy https://github.com/pfalcon/pycopy
+# and pycopy-lib https://github.com/pfalcon/pycopy-lib, projects to
+# create a (very) lightweight full-stack Python distribution.
+#
+# Copyright (c) 2016-2019 Paul Sokolovsky
+# Licence: MIT
 #
 # This module overrides distutils (also compatible with setuptools) "sdist"
 # command to perform pre- and post-processing as required for MicroPython's
