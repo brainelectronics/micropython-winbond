@@ -1,0 +1,19 @@
+{
+    "urls": [
+        [
+            "winbond/__init__.py",
+            "github:brainelectronics/micropython-winbond/winbond/__init__.py"
+        ],
+        [
+            "winbond/winbond.py",
+            "github:brainelectronics/micropython-winbond/winbond/winbond.py"
+        ],
+        [
+            "winbond/version.py",
+            "github:brainelectronics/micropython-winbond/winbond/version.py"
+        ]
+    ],
+    "deps": [
+    ],
+    "version": "0.4.0"
+}

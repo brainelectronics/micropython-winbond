@@ -9,14 +9,32 @@ Taken from https://forum.micropython.org/viewtopic.php?f=16&t=3899
 
 from micropython import const
 import time
+from machine import SPI, Pin
 
 
 class W25QFlash(object):
+    """W25QFlash implementation"""
     SECTOR_SIZE = const(4096)
     BLOCK_SIZE = const(512)
     PAGE_SIZE = const(256)
 
-    def __init__(self, spi, cs, baud=40000000, software_reset=True):
+    def __init__(self,
+                 spi: SPI,
+                 cs: Pin,
+                 baud: int = 40000000,
+                 software_reset: bool = True) -> None:
+        """
+        Constructs a new instance.
+
+        :param      spi:             The SPI object
+        :type       spi:             SPI
+        :param      cs:              The CS pin object
+        :type       cs:              Pin
+        :param      baud:            The SCK clock rate
+        :type       baud:            int
+        :param      software_reset:  Flag to use software reset
+        :type       software_reset:  bool
+        """
         self.cs = cs
         self.spi = spi
         self.cs.init(self.cs.OUT, value=1)
