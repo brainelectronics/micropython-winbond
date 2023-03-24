@@ -36,7 +36,7 @@ exec(open(here / '..' / 'winbond' / 'version.py').read())
 
 # -- Project information
 
-project = 'micropython-package-template'
+project = 'micropython-winbond'
 copyright = '2023, brainelectronics'
 author = 'brainelectronics'
 

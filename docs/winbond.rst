@@ -5,7 +5,7 @@ API
    :toctree: generated
 
 Winbond Flash
----------------------------------
+-------------
 
 .. automodule:: winbond.winbond
    :members:
