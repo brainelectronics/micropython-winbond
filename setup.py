@@ -2,10 +2,10 @@
 # -*- coding: UTF-8 -*-
 
 from setuptools import setup
-import pathlib
+from pathlib import Path
 import sdist_upip
 
-here = pathlib.Path(__file__).parent.resolve()
+here = Path(__file__).parent.resolve()
 
 # Get the long description from the README file
 long_description = (here / 'README.md').read_text(encoding='utf-8')
@@ -25,6 +25,7 @@ setup(
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
     ],
     keywords='micropython, winbond, library',
     project_urls={
