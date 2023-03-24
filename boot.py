@@ -4,9 +4,9 @@
 # import webrepl
 # webrepl.start()
 
-import machine
+from machine import SPI, Pin
 import os
-import winbond
+from winbond import W25QFlash
 
 # Pin   HSPI (id=1)   VSPI (id=2)
 # -------------------------------
@@ -14,10 +14,10 @@ import winbond
 # mosi  13            23
 # miso  12            19
 # cs    x, here 5     x, here 5
-flash = winbond.W25QFlash(spi=machine.SPI(2),
-                          cs=machine.Pin(5),
-                          baud=2000000,
-                          software_reset=True)
+flash = W25QFlash(spi=SPI(2),
+                  cs=Pin(5),
+                  baud=2000000,
+                  software_reset=True)
 
 flash_mount_point = '/external'
 
