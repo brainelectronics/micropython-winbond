@@ -12,6 +12,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 -->
+## [0.4.0] - 2023-03-24
+### Added
+- `package.json` for `mip` installation with MicroPython v1.19.1 or newer
+- Instructions for installation with `mip` on  MicroPython v1.19.1 or newer in `README`
+- `.editorconfig` for common editor settings
+- `.readthedocs.yaml` definition file for ReadTheDocs
+- `docs` folder containing example files and configurations
+- `.yamllint` to lint all used YAML files
+- `yamllint` package to the `requirements-test.txt` file
+- Run YAML linter on test workflow
+- Create release candidate tag on PRs and release tags on merges to main branch
+
+### Removed
+- No longer used `update_version.py` file removed from flake8 exclude list
+
+### Fixed
+- Path to `docs/conf.py` in flake8 file
+- Fixed uncovered YAML syntax issues in all workflow files
+- Removed unused files from `.gitignore` file
+- Doc string and typing hints for Winbond init function
 
 ## [0.3.0] - 2022-11-03
 ### Added
@@ -52,8 +72,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   without hardware reset pins, extended documentation and PEP8 fixes
 
 <!-- Links -->
-[Unreleased]: https://github.com/brainelectronics/micropython-winbond/compare/0.3.0...main
+[Unreleased]: https://github.com/brainelectronics/micropython-winbond/compare/0.4.0...main
 
+[0.4.0]: https://github.com/brainelectronics/micropython-winbond/tree/0.4.0
 [0.3.0]: https://github.com/brainelectronics/micropython-winbond/tree/0.3.0
 [0.2.0]: https://github.com/brainelectronics/micropython-winbond/tree/0.2.0
 [0.1.0]: https://github.com/brainelectronics/micropython-winbond/tree/0.1.0
