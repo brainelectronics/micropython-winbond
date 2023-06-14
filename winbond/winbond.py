@@ -93,7 +93,7 @@ class W25QFlash(object):
         """
         Get the manufacturer ID of the flash
 
-        :returns:   Memory type of the flash
+        :returns:   Manufacturer ID of the flash
         :rtype:     int
         """
         return self._manufacturer
