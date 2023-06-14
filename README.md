@@ -16,14 +16,14 @@ MicroPython library to interact with Winbond W25Q Flash chips
 <!-- MarkdownTOC -->
 
 - [Installation](#installation)
-	- [Install required tools](#install-required-tools)
+    - [Install required tools](#install-required-tools)
 - [Stetup](#stetup)
-	- [Install package with upip](#install-package-with-upip)
-		- [General](#general)
-		- [Specific version](#specific-version)
-		- [Test version](#test-version)
-	- [Manually](#manually)
-		- [Upload files to board](#upload-files-to-board)
+    - [Install package](#install-package)
+        - [General](#general)
+        - [Specific version](#specific-version)
+        - [Test version](#test-version)
+    - [Manually](#manually)
+        - [Upload files to board](#upload-files-to-board)
 - [Usage](#usage)
 - [Credits](#credits)
 
@@ -62,13 +62,14 @@ rshell --help
 
 ## Stetup
 
-### Install package with upip
+### Install package
 
-Connect your MicroPython board to a network
+Connect the MicroPython device to a network (if possible)
 
 ```python
 import network
 station = network.WLAN(network.STA_IF)
+station.active(True)
 station.connect('SSID', 'PASSWORD')
 station.isconnected()
 ```
@@ -101,7 +102,8 @@ mip.install("github:brainelectronics/micropython-winbond", version="feature/add-
 mip.install("github:brainelectronics/micropython-winbond", version="0.4.0")
 ```
 
-For MicroPython versions below 1.19.1 use the `upip` package instead of `mip`
+For MicroPython versions below 1.19.1 use the `upip` package instead of `mip`.
+With `upip` always the latest available version will be installed.
 
 ```python
 import upip
@@ -120,7 +122,8 @@ import mip
 mip.install("github:brainelectronics/micropython-winbond", version="0.4.0-rc2.dev4")
 ```
 
-For MicroPython versions below 1.19.1 use the `upip` package instead of `mip`
+For MicroPython versions below 1.19.1 use the `upip` package instead of `mip`.
+With `upip` always the latest available version will be installed.
 
 ```python
 import upip
@@ -153,7 +156,7 @@ folders to the device
 mkdir /pyboard/lib
 mkdir /pyboard/lib/winbond
 
-cp winbond.py /pyboard/lib/winbond
+cp winbond/* /pyboard/lib/winbond
 cp main.py /pyboard/lib/winbond
 cp boot.py /pyboard/lib/winbond
 ```
@@ -166,6 +169,7 @@ import os
 from winbond import W25QFlash
 
 # the used SPI and CS pin is setup specific, change accordingly
+# check the boot.py file of this repo for further boards
 flash = W25QFlash(spi=SPI(2), cs=Pin(5), baud=2000000, software_reset=True)
 
 flash_mount_point = '/external'
@@ -207,10 +211,5 @@ his [post to use Winbond flash chips][ref-upy-forum-winbond-driver]
 [ref-rtd-micropython-winbond]: https://micropython-winbond.readthedocs.io/en/latest/
 [ref-remote-upy-shell]: https://github.com/dhylands/rshell
 [ref-brainelectronics-test-pypiserver]: https://github.com/brainelectronics/test-pypiserver
-[ref-be32]: https://github.com/brainelectronics/BE32-01/
-[ref-pfalcon-picoweb-sdist-upip]: https://github.com/pfalcon/picoweb/blob/b74428ebdde97ed1795338c13a3bdf05d71366a0/sdist_upip.py
-[ref-test-pypi]: https://test.pypi.org/
-[ref-pypi]: https://pypi.org/
-[ref-invalid-auth-test-pypi]: https://test.pypi.org/help/#invalid-auth
 [ref-crizeo]: https://forum.micropython.org/memberlist.php?mode=viewprofile&u=3067
 [ref-upy-forum-winbond-driver]: https://forum.micropython.org/viewtopic.php?f=16&t=3899&start=10
