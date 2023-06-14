@@ -26,6 +26,7 @@ setup(
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: Implementation :: MicroPython',
     ],
     keywords='micropython, winbond, library',
     project_urls={
