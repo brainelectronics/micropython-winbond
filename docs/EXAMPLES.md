@@ -23,8 +23,17 @@ from winbond import W25QFlash
 # check the docs of your device for further details and pin infos
 CS_PIN = Pin(5)
 spi = SPI(0)
+# for the BE-ESP32-01 use
+# CS_PIN = Pin(10)
+# spi = SPI(2, 2000000, sck=Pin(12), mosi=Pin(11), miso=Pin(13))
 
 flash = W25QFlash(spi=spi, cs=CS_PIN, baud=2000000, software_reset=True)
+
+# get Flash infos/properties
+print("Flash manufacturer ID: 0x{0:02x}".format(flash.manufacturer))
+print("Flash Memory Type: {}".format(flash.mem_type))
+print("Flash Device Type: 0x{0:02x}".format(flash.device))
+print("Flash size: {} bytes".format(flash.capacity))
 # manufacturer: 0xef
 # mem_type: 64
 # device: 0x4016
