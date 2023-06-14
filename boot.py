@@ -33,8 +33,12 @@ try:
         # mosi  13            23
         # miso  12            19
         # cs    x, here 5     x, here 5
-        CS_PIN = Pin(5)
-        spi = SPI(2)
+        if 'esp32s3' in os_info.machine.lower():
+            CS_PIN = Pin(10)
+            spi = SPI(2, 2000000, sck=Pin(12), mosi=Pin(11), miso=Pin(13))
+        else:
+            CS_PIN = Pin(5)
+            spi = SPI(2)
     elif 'rp2' in os_info:
         # https://docs.micropython.org/en/latest/rp2/quickref.html#hardware-spi-bus
         # Pin   id=0   id=1
@@ -56,6 +60,12 @@ except Exception as e:
     raise e
 
 flash = W25QFlash(spi=spi, cs=CS_PIN, baud=2000000, software_reset=True)
+
+# get Flash infos/properties
+print("Flash manufacturer ID: 0x{0:02x}".format(flash.manufacturer))
+print("Flash Memory Type: {}".format(flash.mem_type))
+print("Flash Device Type: 0x{0:02x}".format(flash.device))
+print("Flash size: {} bytes".format(flash.capacity))
 
 flash_mount_point = '/external'
 
