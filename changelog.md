@@ -12,6 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 -->
+## [0.5.0] - 2023-05-14
+### Added
+- Properties for `manufacturer`, `mem_type`, `device`, `capacity`
+- BE-ESP32-01 specific pin and SPI definition in `boot.py`
+- Validate `package.json` file with every test workflow run but without version validation
+
+### Removed
+- Verbose print statements
+
 ## [0.4.0] - 2023-03-24
 ### Added
 - `package.json` for `mip` installation with MicroPython v1.19.1 or newer
@@ -72,8 +81,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   without hardware reset pins, extended documentation and PEP8 fixes
 
 <!-- Links -->
-[Unreleased]: https://github.com/brainelectronics/micropython-winbond/compare/0.4.0...main
+[Unreleased]: https://github.com/brainelectronics/micropython-winbond/compare/0.5.0...main
 
+[0.5.0]: https://github.com/brainelectronics/micropython-winbond/tree/0.5.0
 [0.4.0]: https://github.com/brainelectronics/micropython-winbond/tree/0.4.0
 [0.3.0]: https://github.com/brainelectronics/micropython-winbond/tree/0.3.0
 [0.2.0]: https://github.com/brainelectronics/micropython-winbond/tree/0.2.0

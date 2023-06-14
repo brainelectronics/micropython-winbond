@@ -35,6 +35,11 @@ class W25QFlash(object):
         :param      software_reset:  Flag to use software reset
         :type       software_reset:  bool
         """
+        self._manufacturer = 0x0
+        self._mem_type = 0
+        self._device_type = 0x0
+        self._capacity = 0
+
         self.cs = cs
         self.spi = spi
         self.cs.init(self.cs.OUT, value=1)
@@ -58,11 +63,50 @@ class W25QFlash(object):
         # setup address mode:
         if self._ADR_LEN == 4:
             if not self._read_status_reg(nr=16):  # not in 4-byte mode
-                print("entering 4-byte address mode")
                 self._await()
                 self.cs(0)
                 self.spi.write(b'\xB7')  # 'Enter 4-Byte Address Mode'
                 self.cs(1)
+
+    @property
+    def capacity(self) -> int:
+        """
+        Get the storage capacity of the flash
+
+        :returns:   Capacity of the flash in bytes
+        :rtype:     int
+        """
+        return self._capacity
+
+    @property
+    def device(self) -> int:
+        """
+        Get the flash device type
+
+        :returns:   Flash device type
+        :rtype:     int
+        """
+        return self._device_type
+
+    @property
+    def manufacturer(self) -> int:
+        """
+        Get the manufacturer ID of the flash
+
+        :returns:   Memory type of the flash
+        :rtype:     int
+        """
+        return self._manufacturer
+
+    @property
+    def mem_type(self) -> int:
+        """
+        Get the memory type of the flash
+
+        :returns:   Memory type of the flash
+        :rtype:     int
+        """
+        return self._mem_type
 
     def reset(self) -> None:
         """
@@ -103,7 +147,6 @@ class W25QFlash(object):
         self.cs(1)
         time.sleep_us(30)
         self._busy = False
-        # print('Reset performed')
 
     def identify(self) -> None:
         """
@@ -132,10 +175,11 @@ class W25QFlash(object):
             raise OSError("manufacturer ({}) or memory type ({}) unsupported".
                           format(hex(mf), hex(mem_type)))
 
-        print("manufacturer: {}".format(hex(mf)))               # 0xef
-        print("mem_type: {}".format(mem_type))
-        print("device: {}".format(hex(mem_type << 8 | cap)))    # 0x4016
-        print("capacity: {} bytes".format(self._CAPACITY))      # 4194304 bytes
+        self._manufacturer = hex(mf)
+        self._mem_type = mem_type
+        self._device_type = hex(mem_type << 8 | cap)
+        self._capacity = self._CAPACITY
+
         # return self._CAPACITY  # calculate number of bytes
 
     def get_size(self) -> int:
@@ -224,7 +268,6 @@ class W25QFlash(object):
         assert addr + len(buf) <= self._CAPACITY, \
             "memory not addressable at %s with range %d (max.: %s)" % \
             (hex(addr), len(buf), hex(self._CAPACITY - 1))
-        # print("read {} bytes starting at {}".format(len(buf), hex(addr)))
 
         self._await()
         self.cs(0)
@@ -268,7 +311,6 @@ class W25QFlash(object):
         assert addr + len(buf) <= self._CAPACITY, \
             ("memory not addressable at {} with range {} (max.: {})".
                 format(hex(addr), len(buf), hex(self._CAPACITY - 1)))
-        # print("write buf[{}] to {} ({})".format(len(buf), hex(addr), addr))
 
         for i in range(0, len(buf), self.PAGE_SIZE):
             self._wren()
@@ -296,7 +338,6 @@ class W25QFlash(object):
         """
         assert len(buf) == self.BLOCK_SIZE, \
             "invalid block length: {}".format(len(buf))
-        # print("writeblock({}, buf[{}])".format(blocknum, len(buf)))
 
         sector_nr = blocknum // 8
         sector_addr = sector_nr * self.SECTOR_SIZE

@@ -41,7 +41,6 @@ exclude =
     # example testing folder before going live
     thinking
     # custom scripts, not being part of the distribution
-    libs_external
     sdist_upip.py
     setup.py
 
