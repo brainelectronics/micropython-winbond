@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
-import time
+from time import time
 import os   # os already imported by boot.py. This import is to satisfy flake8
 
 print('Entered main.py')
@@ -24,21 +24,20 @@ if external_test_file_name in os.listdir(flash_mount_point):
 
     # read back the file from the external flash
     with open(external_test_file_path, 'r') as file:
-        lines = file.readlines()
-        for line in lines:
+        for line in file.readlines():
             print(line)
 
     print('Appending new content to "{}"'.format(external_test_file_path))
     # append new content to file on the external flash
     with open(external_test_file_path, 'a') as file:
-        file.write('Hello World at {}\n'.format(time.time()))
+        file.write('Hello World at {}sec\n'.format(time()))
 else:
     print('No test file "{}" exists on external flash "{}", creating it now'.
           format(external_test_file_name, flash_mount_point))
 
     # append content to file on the external flash, create file is not exists
     with open(external_test_file_path, 'a+') as file:
-        file.write('Hello World at {}\n'.format(time.time()))
+        file.write('Hello World at {}sec\n'.format(time()))
 
 print('Listing all files and folders on the external flash directory "{}":'.
       format(flash_mount_point))
