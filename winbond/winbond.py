@@ -58,7 +58,7 @@ class W25QFlash(object):
         self.identify()
 
         # address length (default: 3 bytes, 32MB+: 4)
-        self._ADR_LEN = 3 if (len(bin(self._CAPACITY - 1)) - 2) <= 24 else 4
+        self._ADR_LEN = 3 if (len(bin(self._capacity - 1)) - 2) <= 24 else 4
 
         # setup address mode:
         if self._ADR_LEN == 4:
@@ -165,7 +165,7 @@ class W25QFlash(object):
         mf, mem_type, cap = self.spi.read(3, 0x00)
         self.cs(1)
 
-        self._CAPACITY = int(2**cap)
+        self._capacity = int(2**cap)
 
         if not (mf and mem_type and cap):  # something is 0x00
             raise OSError("device not responding, check wiring. ({}, {}, {})".
@@ -175,12 +175,9 @@ class W25QFlash(object):
             raise OSError("manufacturer ({}) or memory type ({}) unsupported".
                           format(hex(mf), hex(mem_type)))
 
-        self._manufacturer = hex(mf)
+        self._manufacturer = mf
         self._mem_type = mem_type
-        self._device_type = hex(mem_type << 8 | cap)
-        self._capacity = self._CAPACITY
-
-        # return self._CAPACITY  # calculate number of bytes
+        self._device_type = mem_type << 8 | cap
 
     def get_size(self) -> int:
         """
@@ -189,7 +186,7 @@ class W25QFlash(object):
         :returns:   The flash size in byte.
         :rtype:     int
         """
-        return self._CAPACITY
+        return self._capacity
 
     def format(self) -> None:
         """
@@ -265,9 +262,9 @@ class W25QFlash(object):
         :param      addr:  The start address
         :type       addr:  int
         """
-        assert addr + len(buf) <= self._CAPACITY, \
+        assert addr + len(buf) <= self._capacity, \
             "memory not addressable at %s with range %d (max.: %s)" % \
-            (hex(addr), len(buf), hex(self._CAPACITY - 1))
+            (hex(addr), len(buf), hex(self._capacity - 1))
 
         self._await()
         self.cs(0)
@@ -308,9 +305,9 @@ class W25QFlash(object):
             "invalid buffer length: {}".format(len(buf))
         assert not addr & 0xf, \
             "address ({}) not at page start".format(addr)
-        assert addr + len(buf) <= self._CAPACITY, \
+        assert addr + len(buf) <= self._capacity, \
             ("memory not addressable at {} with range {} (max.: {})".
-                format(hex(addr), len(buf), hex(self._CAPACITY - 1)))
+                format(hex(addr), len(buf), hex(self._capacity - 1)))
 
         for i in range(0, len(buf), self.PAGE_SIZE):
             self._wren()
@@ -405,4 +402,4 @@ class W25QFlash(object):
         :returns:   Number of blocks
         :rtype:     int
         """
-        return int(self._CAPACITY / self.BLOCK_SIZE)
+        return int(self._capacity / self.BLOCK_SIZE)
