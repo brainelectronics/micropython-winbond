@@ -170,10 +170,10 @@ class W25QFlash(object):
         if not (mf and mem_type and cap):  # something is 0x00
             raise OSError("device not responding, check wiring. ({}, {}, {})".
                           format(hex(mf), hex(mem_type), hex(cap)))
-        if mf != 0xEF or mem_type not in [0x40, 0x60]:
+        if mf != 0xEF or mem_type not in [0x40, 0x60, 0x70]:
             # Winbond manufacturer, Q25 series memory (tested 0x40 only)
-            raise OSError("manufacturer ({}) or memory type ({}) unsupported".
-                          format(hex(mf), hex(mem_type)))
+            print(f"Warning manufacturer ({hex(mf)}) or memory type"
+                  f"({hex(mem_type)}) not tested.")
 
         self._manufacturer = mf
         self._mem_type = mem_type
@@ -231,9 +231,12 @@ class W25QFlash(object):
         self.spi.write(b'\x05')  # 'Read Status Register-1' command
 
         # last bit (1) is BUSY bit in stat. reg. byte (0 = not busy, 1 = busy)
+        trials = 0
         while 0x1 & self.spi.read(1, 0xFF)[0]:
-            pass
-
+            if trials > 20:
+                raise Exception("Device keeps busy, aborting.")
+            time.sleep(0.1)
+            trials += 1
         self.cs(1)
         self._busy = False
 
@@ -380,10 +383,11 @@ class W25QFlash(object):
         :param      buf:       The data buffer
         :type       buf:       list
         """
-        assert len(buf) % self.BLOCK_SIZE == 0, \
-            'invalid buffer length: {}'.format(len(buf))
-
         buf_len = len(buf)
+        if buf_len % self.BLOCK_SIZE  != 0:
+            # appends xFF dummy bytes
+            buf += bytearray((self.BLOCK_SIZE - buf_len)*[255])
+        
         if buf_len == self.BLOCK_SIZE:
             self._writeblock(blocknum=blocknum, buf=buf)
         else:
