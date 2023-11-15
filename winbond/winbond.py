@@ -398,6 +398,8 @@ class W25QFlash(object):
                                  buf=buf_mv[offset:offset + self.BLOCK_SIZE])
                 offset += self.BLOCK_SIZE
                 blocknum += 1
+        # remove appended bytes
+        buf = buf[:buf_len]
 
     def count(self) -> int:
         """
