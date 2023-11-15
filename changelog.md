@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 -->
+## [0.5.2] - 2023-11-15
+### Fixed
+- await function no longer caught in loop and has timeout of 2 seconds 
+- writeblocks no longer fails for invalid block lengths
+- packages no longer raises exception but prints warning if memory is untested
 ## [0.5.1] - 2023-05-16
 ### Fixed
 - Return type of `manufacturer` and `device` property fixed to be integers instead of strings, see #6
