@@ -384,10 +384,10 @@ class W25QFlash(object):
         :type       buf:       list
         """
         buf_len = len(buf)
-        if buf_len % self.BLOCK_SIZE  != 0:
+        if buf_len % self.BLOCK_SIZE != 0:
             # appends xFF dummy bytes
-            buf += bytearray((self.BLOCK_SIZE - buf_len)*[255])
-        
+            buf += bytearray((self.BLOCK_SIZE - buf_len) * [255])
+
         if buf_len == self.BLOCK_SIZE:
             self._writeblock(blocknum=blocknum, buf=buf)
         else:

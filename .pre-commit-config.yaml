@@ -1,0 +1,13 @@
+# Install the pre-commit hooks below with
+# 'pre-commit install'
+
+# Run the hooks on all files with
+# 'pre-commit run --all'
+
+repos:
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+        additional_dependencies: [flake8-bugbear, flake8-print]
+        args: [--ignore=T201]
