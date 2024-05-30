@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 -->
+## [0.5.3] - 2024-05-30
+### Fixed
+- fixed string formatting for compatibility with micropython
 ## [0.5.2] - 2023-11-15
 ### Fixed
 - await function no longer caught in loop and has timeout of 2 seconds 

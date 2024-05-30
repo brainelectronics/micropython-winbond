@@ -172,8 +172,8 @@ class W25QFlash(object):
                           format(hex(mf), hex(mem_type), hex(cap)))
         if mf != 0xEF or mem_type not in [0x40, 0x60, 0x70]:
             # Winbond manufacturer, Q25 series memory (tested 0x40 only)
-            print(f"Warning manufacturer ({hex(mf)}) or memory type"
-                  f"({hex(mem_type)}) not tested.")
+            print(f"""Warning manufacturer ({hex(mf)}) or memory type
+                      ({hex(mem_type)}) not tested.""")
 
         self._manufacturer = mf
         self._mem_type = mem_type
