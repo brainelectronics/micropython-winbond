@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 -->
+## [0.5.4] - 2024-05-30
+### Fixed
+- sleep changed to microsecond sleep to speed up flashing
 ## [0.5.3] - 2024-05-30
 ### Fixed
 - fixed string formatting for compatibility with micropython

@@ -233,9 +233,9 @@ class W25QFlash(object):
         # last bit (1) is BUSY bit in stat. reg. byte (0 = not busy, 1 = busy)
         trials = 0
         while 0x1 & self.spi.read(1, 0xFF)[0]:
-            if trials > 20:
+            if trials > 5E6:
                 raise Exception("Device keeps busy, aborting.")
-            time.sleep(0.1)
+            time.sleep_us(1)
             trials += 1
         self.cs(1)
         self._busy = False
